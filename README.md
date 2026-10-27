@@ -3,7 +3,7 @@
 > **把截图挂起来，随手取用。**
 
 [PicRope](https://github.com/Renly1994/PicRope)（Windows 截图暂存/贴图工具）的 Mac 版重实现。
-原生 Swift + AppKit，**零第三方依赖**，单包约 100KB。
+
 
 ## 一句话部署
 
