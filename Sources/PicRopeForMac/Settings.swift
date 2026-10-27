@@ -12,6 +12,7 @@ enum Settings {
         static let ropeTransparent = "ropeTransparent"          // 背景全透明（只留绳子和截图）
         static let ropeScreenIndex = "ropeScreenIndex"          // 绳子所在屏幕序号
         static let defaultSide = "defaultSide"                    // 默认截图卡片大小（pt）
+        static let autoCheckUpdate = "autoCheckUpdate"            // 启动时自动检查更新
     }
 
     /// 剪贴板收集（核心功能，默认开启）
@@ -93,5 +94,11 @@ enum Settings {
             return v == 0 ? 84.0 : min(240.0, max(40.0, v))
         }
         set { defaults.set(min(240.0, max(40.0, newValue)), forKey: Key.defaultSide) }
+    }
+
+    /// 启动时自动检查更新（默认开启）
+    static var autoCheckUpdate: Bool {
+        get { defaults.object(forKey: Key.autoCheckUpdate) as? Bool ?? true }
+        set { defaults.set(newValue, forKey: Key.autoCheckUpdate) }
     }
 }
