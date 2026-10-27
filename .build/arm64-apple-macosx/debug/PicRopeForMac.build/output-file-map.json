@@ -1,0 +1,89 @@
+{
+  "": {
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/primary.swiftdeps"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/AppDelegate.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/AppDelegate.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/AppDelegate.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/AppDelegate~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/AppDelegate.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/AppDelegate.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/CaptureStore.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/CaptureStore.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/CaptureStore.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/CaptureStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/CaptureStore.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/CaptureStore.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/ClipboardMonitor.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/ClipboardMonitor.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/ClipboardMonitor.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/ClipboardMonitor~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/ClipboardMonitor.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/ClipboardMonitor.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/FolderMonitor.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/FolderMonitor.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/FolderMonitor.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/FolderMonitor~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/FolderMonitor.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/FolderMonitor.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/LightNotice.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/LightNotice.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/LightNotice.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/LightNotice~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/LightNotice.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/LightNotice.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/MonitorBridge.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/MonitorBridge.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/MonitorBridge.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/MonitorBridge~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/MonitorBridge.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/MonitorBridge.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/PinController.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/PinController.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/PinController.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/PinController~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/PinController.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/PinController.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/RopeItemView.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopeItemView.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopeItemView.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopeItemView~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopeItemView.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopeItemView.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/RopePanel.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopePanel.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopePanel.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopePanel~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopePanel.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/RopePanel.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/Settings.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/Settings.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/Settings.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/Settings~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/Settings.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/Settings.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/SettingsWindow.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/SettingsWindow.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/SettingsWindow.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/SettingsWindow~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/SettingsWindow.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/SettingsWindow.dia"
+  },
+  "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/Sources/PicRopeForMac/main.swift": {
+    "dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/main.d",
+    "object": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/main.swift.o",
+    "swiftmodule": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/main.swiftdeps",
+    "diagnostics": "/Users/amberiod/Desktop/SkyWorth/GitHubIntr/PicRope/.build/arm64-apple-macosx/debug/PicRopeForMac.build/main.dia"
+  }
+}
