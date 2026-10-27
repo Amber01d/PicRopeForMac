@@ -75,3 +75,7 @@ ditto -c -k --keepParent PicRopeForMac.app PicRopeForMac.zip
 ## 致谢
 
 创意来自 [PicRope](https://github.com/Renly1994/PicRope)（其创意参考 Tendedeo），许可与来源声明见原项目 LICENSE / NOTICE。
+
+## 许可
+
+本项目基于 [MIT License](LICENSE) 开源，可自由使用、修改和分发。
