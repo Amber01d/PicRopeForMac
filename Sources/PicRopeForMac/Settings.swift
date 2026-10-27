@@ -10,8 +10,6 @@ enum Settings {
         static let folderPath = "folderPath"                   // 监听目录
         static let ropeAlwaysVisible = "ropeAlwaysVisible"     // 绳子常驻屏幕
         static let ropeTransparent = "ropeTransparent"          // 背景全透明（只留绳子和截图）
-        static let ropeOffsetX = "ropeOffsetX"                  // 绳子水平偏移（相对默认位置）
-        static let ropeOffsetY = "ropeOffsetY"                  // 绳子垂直偏移（正值向下）
         static let ropeScreenIndex = "ropeScreenIndex"          // 绳子所在屏幕序号
         static let defaultSide = "defaultSide"                    // 默认截图卡片大小（pt）
     }
@@ -63,16 +61,19 @@ enum Settings {
         set { defaults.set(newValue, forKey: Key.ropeTransparent) }
     }
 
-    /// 绳子水平偏移（相对屏幕顶部默认位置）
-    static var ropeOffsetX: Double {
-        get { defaults.double(forKey: Key.ropeOffsetX) }
-        set { defaults.set(newValue, forKey: Key.ropeOffsetX) }
+    /// 绳子垂直偏移（正值向下，按屏幕独立保存）
+    private static func offsetsMap() -> [String: Double] {
+        (defaults.dictionary(forKey: "ropeOffsetsPerScreen") as? [String: Double]) ?? [:]
     }
 
-    /// 绳子垂直偏移（正值向下）
-    static var ropeOffsetY: Double {
-        get { defaults.double(forKey: Key.ropeOffsetY) }
-        set { defaults.set(newValue, forKey: Key.ropeOffsetY) }
+    static func ropeOffsetY(forScreen index: Int) -> Double {
+        offsetsMap()[String(index)] ?? 0
+    }
+
+    static func setRopeOffsetY(_ y: Double, forScreen index: Int) {
+        var map = offsetsMap()
+        map[String(index)] = y
+        defaults.set(map, forKey: "ropeOffsetsPerScreen")
     }
 
     /// 绳子所在屏幕序号（NSScreen.screens 下标，默认 0）
