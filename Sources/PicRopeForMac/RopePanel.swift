@@ -98,21 +98,28 @@ final class RopePanel {
         return 0
     }
 
-    /// 切换到指定屏幕（保持相对顶部的垂直偏移）
+    /// 切换到指定屏幕（应用该屏独立保存的位置偏移，未调过则贴顶）
     func moveToScreenIndex(_ index: Int) {
         let screens = NSScreen.screens
         guard screens.indices.contains(index) else { return }
         Settings.ropeScreenIndex = index
-        Settings.ropeOffsetX = 0
         reposition()
         reload()
     }
 
     private func reposition() {
         let screen = anchorScreen
-        // 默认贴屏幕顶部（避开刘海），叠加用户拖动偏移
-        let y = screen.frame.maxY - screen.safeAreaInsets.top - Layout.panelHeight - Settings.ropeOffsetY
-        panel.setFrameTopLeftPoint(NSPoint(x: screen.frame.minX + Settings.ropeOffsetX, y: y))
+        // 贴屏幕顶部（避开刘海），叠加该屏独立保存的垂直偏移
+        let offsetY = Settings.ropeOffsetY(forScreen: Settings.ropeScreenIndex)
+        // 面板宽度始终等于锚定屏宽度（换屏时同步尺寸，保证绳与挂图对称居中）
+        var frame = panel.frame
+        frame.size.width = screen.frame.width
+        frame.size.height = Layout.panelHeight
+        frame.origin.x = screen.frame.minX
+        frame.origin.y = screen.frame.maxY - screen.safeAreaInsets.top - frame.height - offsetY
+        panel.setFrame(frame, display: true)
+        container.frame = NSRect(origin: .zero, size: frame.size)
+        scrollView.frame = NSRect(x: 0, y: 0, width: frame.width, height: frame.height)
     }
 
     private func reload() {
@@ -129,18 +136,17 @@ final class RopePanel {
         canvas.setItems(CaptureStore.shared.items.reversed())
     }
 
-    /// 拖动移动绳子（只允许上下调节；dy 向上为正）
+    /// 拖动移动绳子（只允许上下调节；dy 向上为正；偏移按屏幕独立保存）
     func moveBy(dx: CGFloat, dy: CGFloat) {
         guard dy != 0 else { return }
-        Settings.ropeOffsetX = 0   // 水平不生效，始终居中贴屏幕左沿
-        Settings.ropeOffsetY -= Double(dy)
+        let idx = Settings.ropeScreenIndex
+        Settings.setRopeOffsetY(Settings.ropeOffsetY(forScreen: idx) - Double(dy), forScreen: idx)
         reposition()
     }
 
-    /// 重置绳子位置（仅垂直）
+    /// 重置当前屏幕的绳子位置（仅垂直）
     func resetRope() {
-        Settings.ropeOffsetX = 0
-        Settings.ropeOffsetY = 0
+        Settings.setRopeOffsetY(0, forScreen: Settings.ropeScreenIndex)
         reposition()
         reload()
     }
