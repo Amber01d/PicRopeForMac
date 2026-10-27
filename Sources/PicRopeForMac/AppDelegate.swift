@@ -11,9 +11,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                                            accessibilityDescription: "PicRope")
         statusItem.menu = buildMenu()
 
-        // 启动监视器
+        // 启动监视器；常驻模式启动即显示
         ClipboardMonitorBridge.shared.start()
         RopePanel.shared.applySettings()
+        if Settings.ropeAlwaysVisible {
+            RopePanel.shared.show()
+        }
 
         // 有新截图挂上时自动短暂展示绳子
         NotificationCenter.default.addObserver(forName: .picRopeItemAdded,

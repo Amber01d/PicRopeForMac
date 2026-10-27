@@ -95,30 +95,24 @@ final class RopePanel {
             container.frame = NSRect(origin: .zero, size: size)
             scrollView.frame = NSRect(x: 0, y: 0, width: size.width, height: size.height)
         }
-        canvas.maxSide = Layout.maxSide * CGFloat(Settings.thumbScale)
+        canvas.maxSide = Layout.maxSide
         canvas.setFrameSize(NSSize(width: max(panel.frame.width, canvas.neededWidth),
                                    height: Layout.panelHeight))
         canvas.setItems(CaptureStore.shared.items.reversed())
     }
 
-    /// 拖动移动绳子（dx 向右为正，dy 向上为正）
+    /// 拖动移动绳子（只允许上下调节；dy 向上为正）
     func moveBy(dx: CGFloat, dy: CGFloat) {
-        Settings.ropeOffsetX += Double(dx)
+        guard dy != 0 else { return }
+        Settings.ropeOffsetX = 0   // 水平不生效，始终居中贴屏幕左沿
         Settings.ropeOffsetY -= Double(dy)
         reposition()
     }
 
-    /// 调整截图方块大小（delta 正为放大）
-    func scaleThumbs(delta: CGFloat) {
-        Settings.thumbScale += Double(delta)
-        reload()
-    }
-
-    /// 重置绳子位置与截图大小
+    /// 重置绳子位置（仅垂直）
     func resetRope() {
         Settings.ropeOffsetX = 0
         Settings.ropeOffsetY = 0
-        Settings.thumbScale = 1
         reposition()
         reload()
     }
@@ -133,14 +127,12 @@ final class RopePanel {
     }
 
     func hide() {
-        // 常驻模式下不收起
-        guard !Settings.ropeAlwaysVisible else { return }
         guard isShown else { return }
         isShown = false
         panel.orderOut(nil)
     }
 
-    /// 鼠标离开后延迟收起（避免误触）；常驻模式下不排定收起
+    /// 鼠标离开后延迟收起（避免误触）；常驻模式下不自动收起，但手动隐藏始终有效
     func scheduleHide() {
         guard !Settings.ropeAlwaysVisible else { return }
         hideWork?.cancel()
@@ -159,9 +151,6 @@ final class RopePanel {
 
     /// 设置变更后应用：常驻 / 透明背景
     func applySettings() {
-        if Settings.ropeAlwaysVisible {
-            show()
-        }
         if Settings.ropeTransparent {
             // 背景全透明：只留绳子和截图本体
             container.layer?.backgroundColor = NSColor.clear.cgColor
@@ -366,7 +355,8 @@ final class RopeCanvas: NSView {
     override func mouseDragged(with event: NSEvent) {
         guard let start = lastMovePoint else { return }
         let now = NSEvent.mouseLocation
-        RopePanel.shared.moveBy(dx: now.x - start.x, dy: now.y - start.y)
+        // 只允许上下调节，忽略水平位移
+        RopePanel.shared.moveBy(dx: 0, dy: now.y - start.y)
         lastMovePoint = now
     }
 
@@ -377,10 +367,7 @@ final class RopeCanvas: NSView {
 
     override func menu(for event: NSEvent) -> NSMenu? {
         let menu = NSMenu()
-        menu.addItem(mi("截图放大", #selector(zoomIn)))
-        menu.addItem(mi("截图缩小", #selector(zoomOut)))
-        menu.addItem(.separator())
-        menu.addItem(mi("重置位置与大小", #selector(resetAll)))
+        menu.addItem(mi("重置绳子位置", #selector(resetAll)))
         return menu
     }
 
@@ -390,8 +377,6 @@ final class RopeCanvas: NSView {
         return i
     }
 
-    @objc private func zoomIn() { RopePanel.shared.scaleThumbs(delta: 0.25) }
-    @objc private func zoomOut() { RopePanel.shared.scaleThumbs(delta: -0.25) }
     @objc private func resetAll() { RopePanel.shared.resetRope() }
 
     // MARK: - 悬停跟踪（进入绳子不收起，离开收起）

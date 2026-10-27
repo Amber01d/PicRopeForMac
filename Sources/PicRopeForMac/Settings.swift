@@ -12,7 +12,6 @@ enum Settings {
         static let ropeTransparent = "ropeTransparent"          // 背景全透明（只留绳子和截图）
         static let ropeOffsetX = "ropeOffsetX"                  // 绳子水平偏移（相对默认位置）
         static let ropeOffsetY = "ropeOffsetY"                  // 绳子垂直偏移（正值向下）
-        static let thumbScale = "thumbScale"                     // 截图方块缩放系数
         static let defaultSide = "defaultSide"                    // 默认截图卡片大小（pt）
     }
 
@@ -73,15 +72,6 @@ enum Settings {
     static var ropeOffsetY: Double {
         get { defaults.double(forKey: Key.ropeOffsetY) }
         set { defaults.set(newValue, forKey: Key.ropeOffsetY) }
-    }
-
-    /// 截图方块缩放系数（0.5 ~ 2.0）
-    static var thumbScale: Double {
-        get {
-            let v = defaults.double(forKey: Key.thumbScale)
-            return v == 0 ? 1.0 : min(2.0, max(0.5, v))
-        }
-        set { defaults.set(min(2.0, max(0.5, newValue)), forKey: Key.thumbScale) }
     }
 
     /// 默认截图卡片大小（pt，40 ~ 240，基准 84）

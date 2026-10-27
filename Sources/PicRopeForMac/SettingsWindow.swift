@@ -106,7 +106,7 @@ final class SettingsWindowController {
         sizeTip.frame = NSRect(x: x, y: row(274), width: w - 48, height: 18)
         content.addSubview(sizeTip)
 
-        let tip = NSTextField(labelWithString: "绳子操作：拖动空白处移动位置；右键空白处可缩放截图 / 重置")
+        let tip = NSTextField(labelWithString: "绳子操作：拖动空白处上下移动绳子；右键空白处可重置位置")
         tip.font = .systemFont(ofSize: 11)
         tip.textColor = .secondaryLabelColor
         tip.frame = NSRect(x: x, y: row(294), width: w - 48, height: 18)
