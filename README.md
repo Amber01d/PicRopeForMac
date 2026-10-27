@@ -39,6 +39,8 @@
 
 ## 使用
 
+> **一句话上手**：把这个链接发给你的 AI 助手——"请阅读 https://github.com/Amber01d/PicRopeForMac 的 README 并帮我安装 PicRopeForMac"，剩下的让它搞定。
+
 ```bash
 ./build.sh          # 构建 release 并打包 .app
 open PicRopeForMac.app
