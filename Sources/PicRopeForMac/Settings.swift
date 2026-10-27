@@ -12,6 +12,7 @@ enum Settings {
         static let ropeTransparent = "ropeTransparent"          // 背景全透明（只留绳子和截图）
         static let ropeOffsetX = "ropeOffsetX"                  // 绳子水平偏移（相对默认位置）
         static let ropeOffsetY = "ropeOffsetY"                  // 绳子垂直偏移（正值向下）
+        static let ropeScreenIndex = "ropeScreenIndex"          // 绳子所在屏幕序号
         static let defaultSide = "defaultSide"                    // 默认截图卡片大小（pt）
     }
 
@@ -72,6 +73,15 @@ enum Settings {
     static var ropeOffsetY: Double {
         get { defaults.double(forKey: Key.ropeOffsetY) }
         set { defaults.set(newValue, forKey: Key.ropeOffsetY) }
+    }
+
+    /// 绳子所在屏幕序号（NSScreen.screens 下标，默认 0）
+    static var ropeScreenIndex: Int {
+        get {
+            let v = defaults.integer(forKey: Key.ropeScreenIndex)
+            return v
+        }
+        set { defaults.set(newValue, forKey: Key.ropeScreenIndex) }
     }
 
     /// 默认截图卡片大小（pt，40 ~ 240，基准 84）

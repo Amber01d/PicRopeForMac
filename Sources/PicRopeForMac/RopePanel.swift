@@ -80,8 +80,36 @@ final class RopePanel {
         reload()
     }
 
+    /// 绳子锚定的屏幕（按设置，越界回退主屏）
+    var anchorScreen: NSScreen {
+        let screens = NSScreen.screens
+        let idx = Settings.ropeScreenIndex
+        if screens.indices.contains(idx) { return screens[idx] }
+        return NSScreen.main ?? screens[0]
+    }
+
+    /// 绳子当前实际所在屏幕序号（按面板中心点命中判断）
+    func currentScreenIndex() -> Int {
+        let f = panel.frame
+        let center = NSPoint(x: f.midX, y: f.midY)
+        if let i = NSScreen.screens.firstIndex(where: { NSPointInRect(center, $0.frame) }) {
+            return i
+        }
+        return 0
+    }
+
+    /// 切换到指定屏幕（保持相对顶部的垂直偏移）
+    func moveToScreenIndex(_ index: Int) {
+        let screens = NSScreen.screens
+        guard screens.indices.contains(index) else { return }
+        Settings.ropeScreenIndex = index
+        Settings.ropeOffsetX = 0
+        reposition()
+        reload()
+    }
+
     private func reposition() {
-        guard let screen = NSScreen.main else { return }
+        let screen = anchorScreen
         // 默认贴屏幕顶部（避开刘海），叠加用户拖动偏移
         let y = screen.frame.maxY - screen.safeAreaInsets.top - Layout.panelHeight - Settings.ropeOffsetY
         panel.setFrameTopLeftPoint(NSPoint(x: screen.frame.minX + Settings.ropeOffsetX, y: y))
@@ -368,6 +396,26 @@ final class RopeCanvas: NSView {
     override func menu(for event: NSEvent) -> NSMenu? {
         let menu = NSMenu()
         menu.addItem(mi("重置绳子位置", #selector(resetAll)))
+
+        // 移动到屏幕：列出除当前屏幕外的所有屏幕
+        let moveItem = NSMenuItem(title: "移动到屏幕", action: nil, keyEquivalent: "")
+        let sub = NSMenu()
+        let current = RopePanel.shared.currentScreenIndex()
+        var added = false
+        for (i, s) in NSScreen.screens.enumerated() where i != current {
+            let item = NSMenuItem(title: s.localizedName, action: #selector(pickScreen(_:)), keyEquivalent: "")
+            item.target = self
+            item.tag = i
+            sub.addItem(item)
+            added = true
+        }
+        if !added {
+            let none = NSMenuItem(title: "没有其他屏幕", action: nil, keyEquivalent: "")
+            none.isEnabled = false
+            sub.addItem(none)
+        }
+        moveItem.submenu = sub
+        menu.addItem(moveItem)
         return menu
     }
 
@@ -378,6 +426,9 @@ final class RopeCanvas: NSView {
     }
 
     @objc private func resetAll() { RopePanel.shared.resetRope() }
+    @objc private func pickScreen(_ sender: NSMenuItem) {
+        RopePanel.shared.moveToScreenIndex(sender.tag)
+    }
 
     // MARK: - 悬停跟踪（进入绳子不收起，离开收起）
 
