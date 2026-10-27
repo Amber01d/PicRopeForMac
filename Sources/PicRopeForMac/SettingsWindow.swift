@@ -15,6 +15,8 @@ final class SettingsWindowController {
     private var loginCheck: NSButton!
     private var sideField: NSTextField!
     private var sideStepper: NSStepper!
+    private var updateYesRadio: NSButton!
+    private var updateNoRadio: NSButton!
 
     /// 草稿：确定前只改这里
     private var draft = Draft()
@@ -26,10 +28,11 @@ final class SettingsWindowController {
         var ropeAlwaysVisible = Settings.ropeAlwaysVisible
         var ropeTransparent = Settings.ropeTransparent
         var defaultSide = Settings.defaultSide
+        var autoCheckUpdate = Settings.autoCheckUpdate
     }
 
     private init() {
-        let w = 480.0, h = 372.0
+        let w = 480.0, h = 404.0
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: w, height: h),
                           styleMask: [.titled, .closable],
                           backing: .buffered, defer: false)
@@ -79,19 +82,39 @@ final class SettingsWindowController {
         loginCheck.state = SMAppService.mainApp.status == .enabled ? .on : .off
         content.addSubview(loginCheck)
 
+        // 自动更新：单选框（是/否）+ 主动检查按钮
+        let updateLabel = NSTextField(labelWithString: "启动时自动检查更新：")
+        updateLabel.font = .systemFont(ofSize: 13)
+        updateLabel.sizeToFit()
+        updateLabel.frame.origin = NSPoint(x: x, y: row(244) + 4)
+        content.addSubview(updateLabel)
+
+        updateYesRadio = NSButton(radioButtonWithTitle: "是", target: self, action: #selector(radioChanged))
+        updateYesRadio.frame = NSRect(x: x + 160, y: row(244), width: 44, height: 24)
+        content.addSubview(updateYesRadio)
+
+        updateNoRadio = NSButton(radioButtonWithTitle: "否", target: self, action: #selector(radioChanged))
+        updateNoRadio.frame = NSRect(x: x + 206, y: row(244), width: 44, height: 24)
+        content.addSubview(updateNoRadio)
+
+        let checkBtn = NSButton(title: "检查更新", target: self, action: #selector(checkNow))
+        checkBtn.bezelStyle = .rounded
+        checkBtn.frame = NSRect(x: w - 130, y: row(244), width: 100, height: 28)
+        content.addSubview(checkBtn)
+
         let sizeLabel = NSTextField(labelWithString: "默认截图卡片大小：")
         sizeLabel.font = .systemFont(ofSize: 13)
         sizeLabel.sizeToFit()
-        sizeLabel.frame.origin = NSPoint(x: x, y: row(244) + 4)
+        sizeLabel.frame.origin = NSPoint(x: x, y: row(278) + 4)
         content.addSubview(sizeLabel)
 
-        sideField = NSTextField(frame: NSRect(x: x + 130, y: row(248), width: 56, height: 24))
+        sideField = NSTextField(frame: NSRect(x: x + 130, y: row(282), width: 56, height: 24))
         sideField.alignment = .center
         sideField.target = self
         sideField.action = #selector(fieldChanged)
         content.addSubview(sideField)
 
-        sideStepper = NSStepper(frame: NSRect(x: x + 192, y: row(248), width: 60, height: 24))
+        sideStepper = NSStepper(frame: NSRect(x: x + 192, y: row(282), width: 60, height: 24))
         sideStepper.minValue = 40
         sideStepper.maxValue = 240
         sideStepper.increment = 8
@@ -103,13 +126,13 @@ final class SettingsWindowController {
         let sizeTip = NSTextField(labelWithString: "pt（40–240，仅基准大小，数量多时仍会自动缩小）")
         sizeTip.font = .systemFont(ofSize: 11)
         sizeTip.textColor = .secondaryLabelColor
-        sizeTip.frame = NSRect(x: x, y: row(274), width: w - 48, height: 18)
+        sizeTip.frame = NSRect(x: x, y: row(308), width: w - 48, height: 18)
         content.addSubview(sizeTip)
 
         let tip = NSTextField(labelWithString: "绳子操作：拖动空白处上下移动绳子；右键空白处可重置位置")
         tip.font = .systemFont(ofSize: 11)
         tip.textColor = .secondaryLabelColor
-        tip.frame = NSRect(x: x, y: row(294), width: w - 48, height: 18)
+        tip.frame = NSRect(x: x, y: row(328), width: w - 48, height: 18)
         content.addSubview(tip)
 
         // 确定 / 取消
@@ -153,6 +176,8 @@ final class SettingsWindowController {
         transparentCheck.state = draft.ropeTransparent ? .on : .off
         sideField.stringValue = String(Int(draft.defaultSide))
         sideStepper.doubleValue = draft.defaultSide
+        updateYesRadio.state = draft.autoCheckUpdate ? .on : .off
+        updateNoRadio.state = draft.autoCheckUpdate ? .off : .on
     }
 
     // MARK: - 草稿更新（不生效）
@@ -163,6 +188,18 @@ final class SettingsWindowController {
         draft.folderPath = pathField.stringValue
         draft.ropeAlwaysVisible = alwaysCheck.state == .on
         draft.ropeTransparent = transparentCheck.state == .on
+    }
+
+    /// 单选框互斥（是/否）
+    @objc private func radioChanged() {
+        draft.autoCheckUpdate = updateYesRadio.state == .on
+        updateYesRadio.state = draft.autoCheckUpdate ? .on : .off
+        updateNoRadio.state = draft.autoCheckUpdate ? .off : .on
+    }
+
+    /// 主动检查更新（立即执行，不走草稿）
+    @objc private func checkNow() {
+        Updater.checkAndPrompt()
     }
 
     /// 步进器：以步进器为准，同步输入框
@@ -200,6 +237,7 @@ final class SettingsWindowController {
         Settings.ropeAlwaysVisible = draft.ropeAlwaysVisible
         Settings.ropeTransparent = draft.ropeTransparent
         Settings.defaultSide = draft.defaultSide
+        Settings.autoCheckUpdate = draft.autoCheckUpdate
 
         // 应用
         ClipboardMonitorBridge.shared.applySettings()

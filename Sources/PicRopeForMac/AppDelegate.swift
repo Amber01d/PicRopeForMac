@@ -25,6 +25,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             RopePanel.shared.show()
             RopePanel.shared.scheduleHide()
         }
+
+        // 启动 3 秒后静默检查更新（可在设置中关闭）
+        if Settings.autoCheckUpdate {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                Updater.checkQuietly()
+            }
+        }
     }
 
     private func buildMenu() -> NSMenu {
