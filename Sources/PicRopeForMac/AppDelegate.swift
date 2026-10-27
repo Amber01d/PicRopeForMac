@@ -42,9 +42,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         menu.addItem(item("显示绳子", #selector(showRope)))
         menu.addItem(item("隐藏绳子", #selector(hideRope)))
-        // 绳子控制分组：重置位置 / 移动到屏幕
-        menu.addItem(.separator())
+        menu.addItem(item("清空绳子", #selector(clearAll)))
         menu.addItem(item("重置绳子位置", #selector(resetRope)))
+        menu.addItem(.separator())
         let move = NSMenuItem(title: "移动到屏幕", action: nil, keyEquivalent: "")
         let sub = NSMenu()
         let current = RopePanel.shared.currentScreenIndex()
@@ -66,7 +66,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         menu.addItem(.separator())
         menu.addItem(item("设置…", #selector(openSettings), ","))
-        menu.addItem(item("清空绳子", #selector(clearAll)))
         menu.addItem(.separator())
         menu.addItem(item("退出 PicRopeFM", #selector(quit), "q"))
     }
