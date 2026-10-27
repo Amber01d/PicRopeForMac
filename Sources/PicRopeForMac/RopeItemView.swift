@@ -51,11 +51,19 @@ final class RopeItemView: NSImageView {
         // 保留钩子：目前单击/双击均在 mouseUp 处理
     }
 
+    /// 单击复制延迟判定：等 0.22s 确认没有第二击（双击）才执行，避免双击钉图时先复制
+    private var clickTimer: Timer?
+
     override func mouseUp(with event: NSEvent) {
+        clickTimer?.invalidate()
         if event.clickCount == 2 {
+            // 双击：只钉图，不复制
             PinController.shared.pin(item: item)
         } else {
-            copyToClipboard()
+            // 单击：延迟执行，若第二击在延迟窗口内到来则被取消
+            clickTimer = Timer.scheduledTimer(withTimeInterval: 0.22, repeats: false) { [weak self] _ in
+                self?.copyToClipboard()
+            }
         }
     }
 
