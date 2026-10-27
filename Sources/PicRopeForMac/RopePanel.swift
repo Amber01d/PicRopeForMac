@@ -399,43 +399,6 @@ final class RopeCanvas: NSView {
         NSCursor.closedHand.pop()
     }
 
-    override func menu(for event: NSEvent) -> NSMenu? {
-        let menu = NSMenu()
-        menu.addItem(mi("重置绳子位置", #selector(resetAll)))
-
-        // 移动到屏幕：列出除当前屏幕外的所有屏幕
-        let moveItem = NSMenuItem(title: "移动到屏幕", action: nil, keyEquivalent: "")
-        let sub = NSMenu()
-        let current = RopePanel.shared.currentScreenIndex()
-        var added = false
-        for (i, s) in NSScreen.screens.enumerated() where i != current {
-            let item = NSMenuItem(title: s.localizedName, action: #selector(pickScreen(_:)), keyEquivalent: "")
-            item.target = self
-            item.tag = i
-            sub.addItem(item)
-            added = true
-        }
-        if !added {
-            let none = NSMenuItem(title: "没有其他屏幕", action: nil, keyEquivalent: "")
-            none.isEnabled = false
-            sub.addItem(none)
-        }
-        moveItem.submenu = sub
-        menu.addItem(moveItem)
-        return menu
-    }
-
-    private func mi(_ title: String, _ action: Selector) -> NSMenuItem {
-        let i = NSMenuItem(title: title, action: action, keyEquivalent: "")
-        i.target = self
-        return i
-    }
-
-    @objc private func resetAll() { RopePanel.shared.resetRope() }
-    @objc private func pickScreen(_ sender: NSMenuItem) {
-        RopePanel.shared.moveToScreenIndex(sender.tag)
-    }
-
     // MARK: - 悬停跟踪（进入绳子不收起，离开收起）
 
     override func updateTrackingAreas() {
