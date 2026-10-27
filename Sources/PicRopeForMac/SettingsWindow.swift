@@ -112,7 +112,12 @@ final class SettingsWindowController {
         tip.frame = NSRect(x: x, y: row(294), width: w - 48, height: 18)
         content.addSubview(tip)
 
-        // 确定 / 取消
+        // 恢复默认 / 确定 / 取消
+        let reset = NSButton(title: "初始化设置", target: self, action: #selector(resetSettings))
+        reset.bezelStyle = .rounded
+        reset.frame = NSRect(x: x, y: 16, width: 96, height: 28)
+        content.addSubview(reset)
+
         let ok = NSButton(title: "确定", target: self, action: #selector(applyAndClose))
         ok.bezelStyle = .rounded
         ok.keyEquivalent = "\r"
@@ -214,6 +219,29 @@ final class SettingsWindowController {
     @objc private func cancelAndClose() {
         draft = Draft()
         window.orderOut(nil)
+    }
+
+    /// 初始化设置：全部恢复默认值并立即生效
+    @objc private func resetSettings() {
+        Settings.clipboardEnabled = true
+        Settings.folderEnabled = false
+        Settings.folderPath = Settings.defaultScreenshotsDir
+        Settings.ropeAlwaysVisible = false
+        Settings.ropeTransparent = false
+        Settings.ropeOffsetX = 0
+        Settings.ropeOffsetY = 0
+        Settings.thumbScale = 1.0
+        Settings.defaultSide = 84
+
+        // 立即应用
+        ClipboardMonitorBridge.shared.applySettings()
+        RopePanel.shared.applySettings()
+        RopePanel.shared.reloadIfShown()
+        RopePanel.shared.hide()
+
+        // 刷新草稿与 UI
+        draft = Draft()
+        reloadUI()
     }
 
     // MARK: - 开机自启动（系统登录项，立即生效）
