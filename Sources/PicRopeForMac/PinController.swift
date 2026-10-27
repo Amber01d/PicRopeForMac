@@ -1,13 +1,21 @@
 import AppKit
 
-/// 桌面贴图：置顶小窗，可拖动、滚轮缩放、右键关闭
+/// 桌面贴图：置顶小窗，可拖动、滚轮缩放、双击关闭
+/// 同一张图只钉一次：重复双击时跳到已有小窗
 final class PinController {
     static let shared = PinController()
-    private var windows: [NSWindow] = []
+    /// itemID → 已钉窗口（去重用）
+    private var pinned: [UUID: NSWindow] = [:]
 
     private init() {}
 
     func pin(item: CaptureItem) {
+        // 已钉过：跳到已有小窗，不再新建
+        if let existing = pinned[item.id] {
+            existing.orderFrontRegardless()
+            return
+        }
+
         let image = item.image
         let screen = NSScreen.main?.visibleFrame ?? NSRect(x: 100, y: 100, width: 800, height: 600)
         let maxW = screen.width * 0.5
@@ -33,12 +41,15 @@ final class PinController {
         let pinView = PinImageView(frame: NSRect(origin: .zero, size: size), image: image, item: item)
         window.contentView = pinView
         window.orderFrontRegardless()
-        windows.append(window)
+        pinned[item.id] = window
     }
 
     func close(_ window: NSWindow) {
         window.orderOut(nil)
-        windows.removeAll { $0 == window }
+        // 从去重表移除（按窗口值匹配）
+        if let key = pinned.first(where: { $0.value === window })?.key {
+            pinned.removeValue(forKey: key)
+        }
     }
 }
 
