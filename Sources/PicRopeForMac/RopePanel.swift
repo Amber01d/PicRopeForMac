@@ -14,9 +14,9 @@ final class RopePanel {
 
     private var isShown = false
 
-    /// 布局常量
+    /// 布局常量（maxSide 读取用户设置的基准卡片大小）
     private enum Layout {
-        static let maxSide: CGFloat = RopeItemView.maxSide  // 截图边长上限
+        static var maxSide: CGFloat { CGFloat(Settings.defaultSide) }  // 基准边长（用户可调）
         static let minSide: CGFloat = 28                    // 截图边长下限（再小就横向滚动）
         static let spacing: CGFloat = 16                    // 截图间距
         static let margin: CGFloat = 20                      // 左右边距
@@ -88,6 +88,13 @@ final class RopePanel {
     }
 
     private func reload() {
+        // 基准卡片大小变化时同步面板/容器尺寸
+        let size = NSSize(width: panel.frame.width, height: Layout.panelHeight)
+        if panel.frame.height != size.height {
+            panel.setContentSize(size)
+            container.frame = NSRect(origin: .zero, size: size)
+            scrollView.frame = NSRect(x: 0, y: 0, width: size.width, height: size.height)
+        }
         canvas.maxSide = Layout.maxSide * CGFloat(Settings.thumbScale)
         canvas.setFrameSize(NSSize(width: max(panel.frame.width, canvas.neededWidth),
                                    height: Layout.panelHeight))
@@ -143,6 +150,12 @@ final class RopePanel {
     }
 
     func cancelHide() { hideWork?.cancel() }
+
+    /// 外部触发：按当前设置刷新尺寸与布局（设置确定后调用）
+    func reloadIfShown() {
+        reload()
+        reposition()
+    }
 
     /// 设置变更后应用：常驻 / 透明背景
     func applySettings() {

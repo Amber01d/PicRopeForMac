@@ -1,0 +1,6 @@
+.build/
+.idea/
+*.app
+*.zip
+.DS_Store
+.swiftpm/

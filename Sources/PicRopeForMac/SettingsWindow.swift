@@ -13,6 +13,8 @@ final class SettingsWindowController {
     private var alwaysCheck: NSButton!
     private var transparentCheck: NSButton!
     private var loginCheck: NSButton!
+    private var sideField: NSTextField!
+    private var sideStepper: NSStepper!
 
     /// 草稿：确定前只改这里
     private var draft = Draft()
@@ -23,6 +25,7 @@ final class SettingsWindowController {
         var folderPath = Settings.folderPath
         var ropeAlwaysVisible = Settings.ropeAlwaysVisible
         var ropeTransparent = Settings.ropeTransparent
+        var defaultSide = Settings.defaultSide
     }
 
     private init() {
@@ -76,10 +79,37 @@ final class SettingsWindowController {
         loginCheck.state = SMAppService.mainApp.status == .enabled ? .on : .off
         content.addSubview(loginCheck)
 
+        let sizeLabel = NSTextField(labelWithString: "默认截图卡片大小：")
+        sizeLabel.font = .systemFont(ofSize: 13)
+        sizeLabel.sizeToFit()
+        sizeLabel.frame.origin = NSPoint(x: x, y: row(244) + 4)
+        content.addSubview(sizeLabel)
+
+        sideField = NSTextField(frame: NSRect(x: x + 130, y: row(248), width: 56, height: 24))
+        sideField.alignment = .center
+        sideField.target = self
+        sideField.action = #selector(fieldChanged)
+        content.addSubview(sideField)
+
+        sideStepper = NSStepper(frame: NSRect(x: x + 192, y: row(248), width: 60, height: 24))
+        sideStepper.minValue = 40
+        sideStepper.maxValue = 240
+        sideStepper.increment = 8
+        sideStepper.valueWraps = false
+        sideStepper.target = self
+        sideStepper.action = #selector(stepperChanged)
+        content.addSubview(sideStepper)
+
+        let sizeTip = NSTextField(labelWithString: "pt（40–240，仅基准大小，数量多时仍会自动缩小）")
+        sizeTip.font = .systemFont(ofSize: 11)
+        sizeTip.textColor = .secondaryLabelColor
+        sizeTip.frame = NSRect(x: x, y: row(274), width: w - 48, height: 18)
+        content.addSubview(sizeTip)
+
         let tip = NSTextField(labelWithString: "绳子操作：拖动空白处移动位置；右键空白处可缩放截图 / 重置")
         tip.font = .systemFont(ofSize: 11)
         tip.textColor = .secondaryLabelColor
-        tip.frame = NSRect(x: x, y: row(248), width: w - 48, height: 18)
+        tip.frame = NSRect(x: x, y: row(294), width: w - 48, height: 18)
         content.addSubview(tip)
 
         // 确定 / 取消
@@ -121,6 +151,8 @@ final class SettingsWindowController {
         pathField.stringValue = draft.folderPath
         alwaysCheck.state = draft.ropeAlwaysVisible ? .on : .off
         transparentCheck.state = draft.ropeTransparent ? .on : .off
+        sideField.stringValue = String(Int(draft.defaultSide))
+        sideStepper.doubleValue = draft.defaultSide
     }
 
     // MARK: - 草稿更新（不生效）
@@ -131,6 +163,20 @@ final class SettingsWindowController {
         draft.folderPath = pathField.stringValue
         draft.ropeAlwaysVisible = alwaysCheck.state == .on
         draft.ropeTransparent = transparentCheck.state == .on
+    }
+
+    /// 步进器：以步进器为准，同步输入框
+    @objc private func stepperChanged() {
+        draft.defaultSide = sideStepper.doubleValue
+        sideField.stringValue = String(Int(sideStepper.doubleValue))
+    }
+
+    /// 输入框：解析数值（非法/越界自动钳制），同步步进器
+    @objc private func fieldChanged() {
+        let v = Double(sideField.stringValue) ?? draft.defaultSide
+        draft.defaultSide = min(240, max(40, v))
+        sideStepper.doubleValue = draft.defaultSide
+        sideField.stringValue = String(Int(draft.defaultSide))
     }
 
     @objc private func pickFolder() {
@@ -153,10 +199,12 @@ final class SettingsWindowController {
         Settings.folderPath = draft.folderPath
         Settings.ropeAlwaysVisible = draft.ropeAlwaysVisible
         Settings.ropeTransparent = draft.ropeTransparent
+        Settings.defaultSide = draft.defaultSide
 
         // 应用
         ClipboardMonitorBridge.shared.applySettings()
         RopePanel.shared.applySettings()
+        RopePanel.shared.reloadIfShown()
         if !Settings.ropeAlwaysVisible {
             RopePanel.shared.hide()
         }

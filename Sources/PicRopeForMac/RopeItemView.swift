@@ -1,10 +1,9 @@
 import AppKit
 
 /// 绳子上的单个截图：固定正方形（中心裁剪，无视原比例）
-/// 单击复制、双击钉桌面、拖拽取用、右键菜单
-final class RopeItemView: NSImageView, NSDraggingSource {
+/// 单击复制、双击钉桌面、右键菜单
+final class RopeItemView: NSImageView {
     let item: CaptureItem
-    private var dragStarted = false
     /// 方块边长上限（放不下时会整体缩小）
     static let maxSide: CGFloat = 84
     private let side: CGFloat
@@ -45,42 +44,19 @@ final class RopeItemView: NSImageView, NSDraggingSource {
         return cropped
     }
 
-    // MARK: - 单击复制 / 拖拽取用
-    // 注意：不调用 super 的鼠标事件处理，NSImageView 默认实现会吞掉后续事件导致拖拽失效
+    // MARK: - 单击复制 / 双击钉桌面
+    // 注意：不调用 super 的鼠标事件处理，NSImageView 默认实现会吞掉后续事件
 
     override func mouseDown(with event: NSEvent) {
-        dragStarted = false
-    }
-
-    override func mouseDragged(with event: NSEvent) {
-        guard !dragStarted else { return }
-        // 拖动超过 3pt 才开始拖拽会话，避免与单击冲突
-        if abs(event.deltaX) + abs(event.deltaY) > 3 {
-            dragStarted = true
-            beginDrag(with: event)
-        }
+        // 保留钩子：目前单击/双击均在 mouseUp 处理
     }
 
     override func mouseUp(with event: NSEvent) {
-        if !dragStarted {
-            if event.clickCount == 2 {
-                PinController.shared.pin(item: item)
-            } else {
-                copyToClipboard()
-            }
+        if event.clickCount == 2 {
+            PinController.shared.pin(item: item)
+        } else {
+            copyToClipboard()
         }
-    }
-
-    private func beginDrag(with event: NSEvent) {
-        // 显式构造粘贴板项：PNG + TIFF 双格式，兼容大多数接收方
-        let pboardItem = NSPasteboardItem()
-        pboardItem.setData(item.data, forType: .png)
-        if let tiff = item.image.tiffRepresentation {
-            pboardItem.setData(tiff, forType: .tiff)
-        }
-        let draggingItem = NSDraggingItem(pasteboardWriter: pboardItem)
-        draggingItem.draggingFrame = bounds
-        beginDraggingSession(with: [draggingItem], event: event, source: self)
     }
 
     func copyToClipboard() {
@@ -126,12 +102,6 @@ final class RopeItemView: NSImageView, NSDraggingSource {
 
     override func resetCursorRects() {
         addCursorRect(bounds, cursor: .pointingHand)
-    }
-
-    // MARK: - NSDraggingSource
-
-    func draggingSession(_: NSDraggingSession, sourceOperationMaskFor _: NSDraggingContext) -> NSDragOperation {
-        .copy
     }
 
     // MARK: - 右键菜单

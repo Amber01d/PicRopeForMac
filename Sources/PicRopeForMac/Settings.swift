@@ -13,6 +13,7 @@ enum Settings {
         static let ropeOffsetX = "ropeOffsetX"                  // 绳子水平偏移（相对默认位置）
         static let ropeOffsetY = "ropeOffsetY"                  // 绳子垂直偏移（正值向下）
         static let thumbScale = "thumbScale"                     // 截图方块缩放系数
+        static let defaultSide = "defaultSide"                    // 默认截图卡片大小（pt）
     }
 
     /// 剪贴板收集（核心功能，默认开启）
@@ -81,5 +82,15 @@ enum Settings {
             return v == 0 ? 1.0 : min(2.0, max(0.5, v))
         }
         set { defaults.set(min(2.0, max(0.5, newValue)), forKey: Key.thumbScale) }
+    }
+
+    /// 默认截图卡片大小（pt，40 ~ 240，基准 84）
+    /// 只改变基准大小，不影响数量过多时的自动缩小
+    static var defaultSide: Double {
+        get {
+            let v = defaults.double(forKey: Key.defaultSide)
+            return v == 0 ? 84.0 : min(240.0, max(40.0, v))
+        }
+        set { defaults.set(min(240.0, max(40.0, newValue)), forKey: Key.defaultSide) }
     }
 }
