@@ -266,9 +266,7 @@ final class SettingsWindowController {
         Settings.folderPath = Settings.defaultScreenshotsDir
         Settings.ropeAlwaysVisible = false
         Settings.ropeTransparent = false
-        Settings.ropeOffsetX = 0
-        Settings.ropeOffsetY = 0
-        Settings.thumbScale = 1.0
+        UserDefaults.standard.removeObject(forKey: "ropeOffsetsPerScreen")  // 清空各屏绳子偏移
         Settings.defaultSide = 84
 
         // 立即应用
